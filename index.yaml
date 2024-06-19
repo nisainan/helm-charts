@@ -2,15 +2,15 @@ apiVersion: v1
 entries:
   mx-server:
   - apiVersion: v1
-    created: "2024-06-19T14:26:19.323967+08:00"
+    created: "2024-06-19T16:22:44.413135+08:00"
     description: mx-server
-    digest: 82f08788daf436f0e8b43dd44af67540a53eafdf74019148a3c0aab511c381db
+    digest: 5b6ada9d687d8cbfd183e9ef1301c7a81b56b8af3f60952516757aeaf95cf549
     kubeVersion: '>=1.16.0-0'
     maintainers:
     - email: taosheng205054@gmail.com
       name: TS
     name: mx-server
     urls:
-    - https://nisainan.github.io/helm-charts/charts/mx-server-0.0.1.tgz
-    version: 0.0.1
-generated: "2024-06-19T14:26:19.323274+08:00"
+    - https://nisainan.github.io/helm-charts/charts/mx-server-0.0.2.tgz
+    version: 0.0.2
+generated: "2024-06-19T16:22:44.412825+08:00"

@@ -41,10 +41,7 @@ ingress:
   ingressClassName: nginx
   annotations: {}
   hosts:
-    - host: mix.kolex.com.cn
-      paths:
-        - path: /
-          pathType: Prefix
+    - chart-example.local
   extraPaths: []
   tls: []
 
