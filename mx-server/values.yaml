@@ -1,0 +1,51 @@
+# values.yaml
+replicaCount: 1
+
+image:
+  repository: innei/mx-server
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 2333
+
+env:
+  TZ: Asia/Shanghai
+  NODE_ENV: production
+  DB_HOST: 'mongodb.mongodb'
+  REDIS_HOST: 'redis-master.redis'
+  ALLOWED_ORIGINS: 'localhost'
+  JWT_SECRET: 'Taosheng@205054'
+
+volumes:
+  - name: mx-space
+    mountPath: /root/.mx-space
+    hostPath: ./data/mx-space
+
+dependencies:
+  - name: mongo
+  - name: redis
+
+healthcheck:
+  enabled: true
+  command: curl -f http://127.0.0.1:2333/api/v2/ping
+  interval: 90
+  timeout: 30
+  retries: 5
+  start_period: 30
+
+ingress:
+  enabled: true
+  path: /
+  ingressClassName: nginx
+  annotations: {}
+  hosts:
+    - host: mix.kolex.com.cn
+      paths:
+        - path: /
+          pathType: Prefix
+  extraPaths: []
+  tls: []
+
+storageClassName: local-path

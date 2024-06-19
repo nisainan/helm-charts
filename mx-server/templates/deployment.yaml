@@ -1,0 +1,53 @@
+# templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mx-server
+  labels:
+    app: mx-server
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: mx-server
+  template:
+    metadata:
+      labels:
+        app: mx-server
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          env:
+            - name: TZ
+              value: {{ .Values.env.TZ }}
+            - name: NODE_ENV
+              value: {{ .Values.env.NODE_ENV }}
+            - name: DB_HOST
+              value: {{ .Values.env.DB_HOST }}
+            - name: REDIS_HOST
+              value: {{ .Values.env.REDIS_HOST }}
+            - name: ALLOWED_ORIGINS
+              value: {{ .Values.env.ALLOWED_ORIGINS }}
+            - name: JWT_SECRET
+              value: {{ .Values.env.JWT_SECRET }}
+          readinessProbe:
+            httpGet:
+              path: http://127.0.0.1:2333/api/v2/ping
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: {{ .Values.healthcheck.start_period | default 30 }}
+            periodSeconds: {{ .Values.healthcheck.interval | default 90 }}
+            timeoutSeconds: {{ .Values.healthcheck.timeout | default 30 }}
+            successThreshold: 1
+            failureThreshold: {{ .Values.healthcheck.retries | default 5 }}
+          volumeMounts:
+            - name: mx-space
+              mountPath: /root/.mx-space
+      volumes:
+        - name: mx-space
+          persistentVolumeClaim:
+            claimName: mx-server
+      restartPolicy: Always
