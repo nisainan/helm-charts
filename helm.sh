@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# shellcheck disable=SC2164
 cd charts
 
 # 对charts目录下的所有子目录执行helm package ./目录
